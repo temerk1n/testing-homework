@@ -61,17 +61,4 @@ describe('Каталог', function() {
 
     await expect(browser.$('.Cart-Name')).toHaveText(productName);
   });
-
-  // it('на странице с подробной информацией отображаются: название товара, его описание, цена, цвет, материал и кнопка * * "добавить в корзину"', async function({browser}) {
-  //   const url = `http://localhost:3000/hw/store/catalog`;
-  //
-  //   const puppeteer = await browser.getPuppeteer();
-  //   const [page] = await puppeteer.pages();
-  //
-  //   await page.goto(url);
-  //   await page.waitForSelector('.card-link');
-  //   await page.click('.card-link');
-  //
-  //   await this.browser.assertView('plain', '.ProductDetails');
-  // });
 });

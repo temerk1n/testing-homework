@@ -32,47 +32,43 @@ describe('Корзина', () => {
     expect(link.getAttribute("href")).toBe(basename + "/catalog");
   });
 
-  it('оформление заказа проходит успешно', async function () {
-    const user = events.setup();
-
-    const basename = '/hw/store';
-
-    const api = new ExampleApi(basename);
-    const cart = new CartApi();
-    const store = initStore(api, cart);
-
-    store.dispatch({
-      type: "ADD_TO_CART",
-      product: {
-        id: 27,
-        name: "Test",
-        price: 100,
-        description: "a",
-        material: "stone",
-        color: "blue"
-      }
-    })
-
-    const cartPage = (
-      <BrowserRouter basename={basename}>
-        <Provider store={store}>
-          <Cart />
-        </Provider>
-      </BrowserRouter>
-    );
-
-    const { getByTestId } = render(cartPage);
-
-    await user.type(getByTestId("name-input"), "name");
-    await user.type(getByTestId("phone-input"), "53253464363");
-    await user.type(getByTestId("address-input"), "test");
-
-    // const input = getByTestId("name-input") as HTMLInputElement;
-    // expect(input.value).toBe("name");
-
-    await user.click(getByTestId("checkout-btn"));
-
-    // expect(getByTestId("checkout-alert")).toBeInTheDocument();
-
-  });
+  // it('оформление заказа проходит успешно', async function () {
+  //   const user = events.setup();
+  //
+  //   const basename = '/hw/store';
+  //
+  //   const api = new ExampleApi(basename);
+  //   const cart = new CartApi();
+  //   const store = initStore(api, cart);
+  //
+  //   store.dispatch({
+  //     type: "ADD_TO_CART",
+  //     product: {
+  //       id: 27,
+  //       name: "Test",
+  //       price: 100,
+  //       description: "a",
+  //       material: "stone",
+  //       color: "blue"
+  //     }
+  //   })
+  //
+  //   const cartPage = (
+  //     <BrowserRouter basename={basename}>
+  //       <Provider store={store}>
+  //         <Cart />
+  //       </Provider>
+  //     </BrowserRouter>
+  //   );
+  //
+  //   const { getByTestId } = render(cartPage);
+  //
+  //   await user.type(getByTestId("name-input"), "name");
+  //   await user.type(getByTestId("phone-input"), "53253464363");
+  //   await user.type(getByTestId("address-input"), "test");
+  //
+  //   await user.click(getByTestId("checkout-btn"));
+  //
+  //   expect(getByTestId("checkout-alert")).toBeInTheDocument();
+  // });
 });

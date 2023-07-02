@@ -7,30 +7,6 @@ import {initStore} from "../../src/client/store";
 import {CartApi, ExampleApi} from "../../src/client/api";
 
 describe('Каталог', () => {
-  // it('в каталоге должны отображаться товары, список которых приходит с сервера', function () {
-  //   const basename = '/hw/store';
-  //
-  //   const api = {
-  //     basename: basename,
-  //     getProducts: async () => {
-  //       setTimeout(() => {
-  //
-  //       }, 200)
-  //     },
-  //     getProductById: (): null => null,
-  //     checkout: (): null => null,
-  //   };
-  //   const cart = new CartApi();
-  //   const store = initStore(api, cart);
-  //   const { container } = render(
-  //     <BrowserRouter>
-  //       <Provider store={store}>
-  //         <Catalog />
-  //       </Provider>
-  //     </BrowserRouter>
-  //   )
-  // });
-
   it('для каждого товара в каталоге отображается название, цена и ссылка на страницу с подробной информацией о товаре', function () {
 
     const product = {

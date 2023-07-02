@@ -11,14 +11,9 @@ describe('Каталог', function() {
     await page.waitForSelector('.ProductDetails-AddToCart');
     await page.click('.ProductDetails-AddToCart');
     await page.goto(url + "/catalog");
+    await page.waitForSelector('.card-body');
 
-    await this.browser.assertView('plain', '.ProductItem', {
-      ignoreElements: [
-        ".card-img-top",
-        ".card-title",
-        ".card-text",
-      ],
-    });
+    await expect(browser.$('.CartBadge')).toHaveText("Item in cart");
   });
 
   it('если товар уже добавлен в корзину, повторное нажатие кнопки "добавить в корзину" должно увеличивать его количество', async function({browser}) {
@@ -27,16 +22,23 @@ describe('Каталог', function() {
     const puppeteer = await browser.getPuppeteer();
     const [page] = await puppeteer.pages();
 
+    await page.goto(url + "/cart");
+
+    let count = 0;
+    if (await browser.$(".Cart-Count").isExisting()) {
+      count = await browser.$(".Cart-Count").getText();
+    }
+
     await page.goto(url + "/catalog");
     await page.waitForSelector('.card-link');
     await page.click('.card-link');
     await page.waitForSelector('.ProductDetails-AddToCart');
     await page.click('.ProductDetails-AddToCart');
     await page.click('.ProductDetails-AddToCart');
-    await page.reload();
     await page.goto(url + "/cart");
 
-    await this.browser.assertView('plain', '.Cart-Count');
+    const result = +count + 2;
+    await expect(browser.$('.Cart-Count')).toHaveText(result.toString());
   });
 
   it('содержимое корзины должно сохраняться между перезагрузками страницы', async function({browser}) {
@@ -45,20 +47,31 @@ describe('Каталог', function() {
     const puppeteer = await browser.getPuppeteer();
     const [page] = await puppeteer.pages();
 
+    let productName;
+
     await page.goto(url + "/catalog");
     await page.waitForSelector('.card-link');
     await page.click('.card-link');
+    await page.waitForSelector('.ProductDetails-AddToCart');
     await page.click('.ProductDetails-AddToCart');
+    productName = await browser.$(".ProductDetails-Name").getText();
     await page.reload();
     await page.goto(url + "/cart");
+    await page.waitForSelector('.Cart');
 
-    await this.browser.assertView('plain', '.Cart-Table', {
-      ignoreElements: [
-        ".Cart-Name",
-        ".Cart-Price",
-        ".Cart-Total",
-        ".Cart-OrderPrice",
-      ]
-    });
+    await expect(browser.$('.Cart-Name')).toHaveText(productName);
   });
+
+  // it('на странице с подробной информацией отображаются: название товара, его описание, цена, цвет, материал и кнопка * * "добавить в корзину"', async function({browser}) {
+  //   const url = `http://localhost:3000/hw/store/catalog`;
+  //
+  //   const puppeteer = await browser.getPuppeteer();
+  //   const [page] = await puppeteer.pages();
+  //
+  //   await page.goto(url);
+  //   await page.waitForSelector('.card-link');
+  //   await page.click('.card-link');
+  //
+  //   await this.browser.assertView('plain', '.ProductDetails');
+  // });
 });
